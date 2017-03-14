@@ -2,19 +2,74 @@
 <html lang="en-us">
 <head>
 	<meta charset="UTF-8">
-	<title>Deep Space 9 Shuttle Manifest and Schedule</title>
+	<title>Shuttle Schedule</title>
 	<!-- Latest minified jQuery 3.1.1 -->
 	<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 	<!-- My custom stylesheet -->
 	<link rel="stylesheet" href="assets/css/style.css">
+
 </head>
 <body>
 
+<div id="splash" class="banner">
+	<h1>Deep Space 9 Shuttle Manifest and Schedule</h1>
+</div>
+
+<div id="info">
+	<p class="bold">This sub-space page comprises a list of all active shuttles ferrying 
+	passengers and cargo between Deep Space 9 and Bajoran landing sites</h3>
+	<p>*NEW* All times have been changed from Cardassian to standard Earth time to reflect
+	new management</p>
 
 
+<table id="schedule" class="table-hover">
+	<thead>
+		<tr>
+			<th row-header="registration">Shuttle Registration</th>
+			<th row-header="docking-bay">Docking Bay</th>
+			<th row-header="destination">Landing Site</th>
+			<th row-header="frequency">Frequency</th>
+			<th row-header="next">Next Arrival Time</th>
+			<th row-header="countdown">Arrives in...</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
+<form id="mainForm">
+	<div>
+		<label>Shuttle Registration</label>
+		<input placeholder="i.e. NCC-K7" id="shuttle-name" type="text">
+	</div>
+		<div>
+		<label>Shuttle Pod Bay</label>
+		<input placeholder="i.e. Cargo Bay 3" id="shuttle-bay" type="text">
+	</div>
+	
+	<div>
+		<label>Destination</label>
+		<input placeholder="i.e. Ashalla" id="destination" type="text">
+	</div>
+
+	<div>
+		<label>First Shuttle Time</label>
+		<input placeholder="(HH:MM) Miltary Time" id="first-shuttle" type="text">
+	</div>
+
+	<div>
+		<label>Frequency</label>
+		<input placeholder="Frequency (minutes)" id="frequency" type="text">
+	</div>
+
+	<button id="submit" class="btn waves-effect waves-light" type="submit">Submit
+		<i class="material-icons right"></i>
+	</button>
+</form>
 
 </body>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.7.1/firebase.js"></script>
 </html>
