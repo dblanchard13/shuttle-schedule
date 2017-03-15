@@ -9,34 +9,45 @@ var config = {
 firebase.initializeApp(config);
 var database = firebase.database();
 
-// CALCULATE THE NEXT ARRIVAL TIME
-function nextArrivalTime() {
-	return "3:00pm"
-}
-
-// CALCULATE HOW MANY MINUTES UNTIL NEXT ARRIVAL
-function minToArrival() {
-	return "30 minutes"
-}
-
-
-
-// UPDATE TABLE ON PAGE LOAD OR WHEN THE DATA IN FIREBASE CHANGES
-database.ref().on("child_added", function(childSnapshot) {
-	var row = $("<tr>");
-	row.append("<td>" + childSnapshot.val().shuttle + "</td>");
-	row.append("<td>" + childSnapshot.val().shuttle_bay + "</td>");
-	row.append("<td>" + childSnapshot.val().destination + "</td>");
-	row.append("<td>" + childSnapshot.val().frequency + "</td>");
-	row.append("<td>" + nextArrivalTime() + "</td>");
-	row.append("<td>" + minToArrival() + "</td>");
-	$("#data-table").append(row);
-})
-
-///////////////////////////////////////////////////////////////////////////////
-// MAIN
-///////////////////////////////////////////////////////////////////////////////
+// LOAD READY RUN
 $(document).ready(function(){
+
+	// CALCULATE THE NEXT ARRIVAL TIME
+	function nextArrivalTime(start, freq) {
+		var start = moment(start, 'hh:mm')
+		var diff = moment().diff(start, 'minutes');
+		if (moment(start).isAfter()) {
+			return start;
+		}
+		while (diff > freq) {
+			diff = diff - freq;
+			start.add(freq, 'm');
+		}
+		return (start.add(freq, 'm').format('hh:mm A'));
+	}
+
+	// CALCULATE HOW MANY MINUTES UNTIL NEXT ARRIVAL
+	function minToArrival(start, freq) {
+		var next = nextArrivalTime(start, freq)
+		return (moment(next).subtract(moment(), 'm'));
+	}
+
+	function writeTable(snapshot) {
+		var row = $("<tr>");
+		row.append("<td>" + snapshot.val().shuttle + "</td>");
+		row.append("<td>" + snapshot.val().shuttle_bay + "</td>");
+		row.append("<td>" + snapshot.val().destination + "</td>");
+		row.append("<td>" + snapshot.val().frequency + "</td>");
+		row.append("<td>" + nextArrivalTime(snapshot.val().first_shuttle, snapshot.val().frequency) + "</td>");
+		row.append("<td>" + minToArrival(snapshot.val().first_shuttle, snapshot.val().frequency) + "</td>");
+		$("#data-table").append(row);
+	}
+
+	// UPDATE TABLE ON PAGE LOAD OR WHEN THE DATA IN FIREBASE CHANGES
+	database.ref().on("child_added", function(childSnapshot) {
+		writeTable(childSnapshot);
+	})
+
 	// FORM SUBMISSION, SENDING DATA TO FIREBASE
 	$("#btn-submit").on('click', function(event){
 		event.preventDefault();
@@ -44,7 +55,7 @@ $(document).ready(function(){
 		var shuttle_bay = $("#shuttle-bay").val().trim();
 		var destination = $("#destination").val().trim();
 		var frequency = $("#frequency").val().trim();
-		var first_shuttle = $("#first-shuttle").val().trim();
+		var first_shuttle = toUnixTime($("#first-shuttle").val().trim());
 
 		database.ref().push({
 			shuttle: shuttle,

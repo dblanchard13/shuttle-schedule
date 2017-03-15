@@ -26,7 +26,7 @@
 	<p>This station-wide bulletin-board comprises a list of all active Starfleet shuttles ferrying 
 	passengers and cargo between Deep Space 9 and Bajoran landing sites.</p>
 	<p><b>*NEW*</b> All times have been changed from Cardassian Military to standard Earth time to reflect
-	new management.</p>
+	new management. (Note: Starfleet HQ is in San Francisco, which is <i>Earth Pacific Standard</i> Time.)</p>
 </div>
 
 <!-- Data table -->
@@ -78,8 +78,8 @@
 						<input class="form-control" placeholder="i.e. Ashalla" id="destination" type="text">
 					</div>
 					<div class="form-group">
-						<label for="first-shuttle">First Shuttle Time</label>
-						<input class="form-control" placeholder="(HH:MM) Miltary Time" id="first-shuttle" type="text">
+						<label for="first-shuttle">Time of first daily run</label>
+						<input class="form-control" placeholder="HH:MM" id="first-shuttle" type="text">
 					</div>
 					<div class="form-group">
 						<label for="frequency">Frequency</label>
@@ -101,7 +101,9 @@
 	src="https://code.jquery.com/jquery-3.1.1.min.js" 
 	integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" 
 	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.js"></script>
 <script type="text/javascript" src="assets/javascript/app.js"></script>
+
 <!-- End Javascript libraries -->
 
 </body>
