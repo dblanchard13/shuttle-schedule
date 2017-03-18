@@ -15,6 +15,7 @@ $(document).ready(function(){
 	// CALCULATE THE NEXT ARRIVAL TIME
 	function nextArrivalTime(start, freq) {
 		var start = moment(start, 'hh:mm')
+		//console.log(start);
 		var diff = moment().diff(start, 'minutes');
 		if (moment(start).isAfter()) {
 			return start;
@@ -28,8 +29,9 @@ $(document).ready(function(){
 
 	// CALCULATE HOW MANY MINUTES UNTIL NEXT ARRIVAL
 	function minToArrival(start, freq) {
-		var next = nextArrivalTime(start, freq)
-		return (moment(next).subtract(moment(), 'm'));
+		var next = moment(nextArrivalTime(start, freq), 'hh:mm A');
+		next.diff(moment(), 'minutes');
+		return (next.diff(moment(), 'minutes') + " min");
 	}
 
 	function writeTable(snapshot) {
