@@ -18,7 +18,7 @@ $(document).ready(function(){
 		//console.log(start);
 		var diff = moment().diff(start, 'minutes');
 		if (moment(start).isAfter()) {
-			return start;
+			return start.format('hh:mm A');
 		}
 		while (diff > freq) {
 			diff = diff - freq;
@@ -57,7 +57,7 @@ $(document).ready(function(){
 		var shuttle_bay = $("#shuttle-bay").val().trim();
 		var destination = $("#destination").val().trim();
 		var frequency = $("#frequency").val().trim();
-		var first_shuttle = toUnixTime($("#first-shuttle").val().trim());
+		var first_shuttle = $("#first-shuttle").val().trim();
 
 		database.ref().push({
 			shuttle: shuttle,
