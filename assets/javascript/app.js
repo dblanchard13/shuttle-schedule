@@ -1,3 +1,7 @@
+// You also want these variables to be inside of the `$(document).ready` block.
+// Otherwise, malicious users would have direct access to your database just
+// by opening the console 😳
+
 // VARIABLE DECLARATIONS
 var config = {
 	apiKey: "AIzaSyB3O2HaO5Sh_W_ITRSu28SeoMuP5ibfJ0A",
@@ -14,6 +18,10 @@ $(document).ready(function(){
 
 	// CALCULATE THE NEXT ARRIVAL TIME
 	function nextArrivalTime(start, freq) {
+		// `start` is an argument being passed to this function
+		// so declaring here is unnecessary and also a little
+		// confusing. Instead you can simply remove the `var`
+		// keyword from the next line.
 		var start = moment(start, 'hh:mm')
 		//console.log(start);
 		var diff = moment().diff(start, 'minutes');
@@ -30,7 +38,12 @@ $(document).ready(function(){
 	// CALCULATE HOW MANY MINUTES UNTIL NEXT ARRIVAL
 	function minToArrival(start, freq) {
 		var next = moment(nextArrivalTime(start, freq), 'hh:mm A');
-		next.diff(moment(), 'minutes');
+		// since you're not capturing the return value from the following
+		// line, you may as well not be executing it
+		// next.diff(moment(), 'minutes');
+		// Not entirely sure the root cause, but your minToArrival is always one off.
+		// You may need to dig around in moment's docs to see if there's an additional option
+		// you need to pass.
 		return (next.diff(moment(), 'minutes') + " min");
 	}
 
@@ -46,6 +59,10 @@ $(document).ready(function(){
 	}
 
 	// UPDATE TABLE ON PAGE LOAD OR WHEN THE DATA IN FIREBASE CHANGES
+	// since `writeTable` is the entirety of your handler for the 
+	// 'child_added' event - you could pare this down to a single line
+	// by just passing a reference to your function like so:
+	// database.ref().on("child_added", writeTable)
 	database.ref().on("child_added", function(childSnapshot) {
 		writeTable(childSnapshot);
 	})
